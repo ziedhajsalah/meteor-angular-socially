@@ -146,7 +146,7 @@ But if you can't undo it, you can still solve this issue:
 - Now make you changes in a different commits, instead of one, perform them manually, and to commit each single change, use: `git commit --all` (Note that we did not use `amend` flag so we do not change the commit we set to edit mode!), and in that screen that opens, set the commit message. do that for each one of the commits.
 - Now just continue your rebase with `git rebase --continue` and finish it like any other change you made in the git history.
 
-## How to Meteor packages and versions?
+## How to handle Meteor packages and versions?
 
 Actually, changing versions and packages in Meteor app should be the same, but there is a file that Meteor manages by it self, called `.meteor/versions` - this file contains the versions of all the packages you use in your app.
 
