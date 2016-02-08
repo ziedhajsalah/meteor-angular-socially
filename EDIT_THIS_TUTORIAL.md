@@ -183,7 +183,7 @@ Note that after each change you made in the commits that required a force `push`
 
 Another good you get is the ability to get a link to download the entire tutorial example, so users can jump to step and start it from there with the updated code! 
 
-To do that, just add a link to your tutorial, like this:
+To do that, just add a link in your tutorial, like this:
 
 https://github.com/Urigo/meteor-angular-socially/archive/step_21.zip
 
