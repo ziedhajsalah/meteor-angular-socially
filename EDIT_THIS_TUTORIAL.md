@@ -162,3 +162,31 @@ Now run your app and wait for it to finish the build, and you will notice that M
 ## How to create a new tutorial app?
 
 Creating a new tutorial described [here](http://meteor-tutorial-tools.readthedocs.org/en/latest/new-tutorial/).
+
+## Another goods
+
+#### Step tag and step diff
+
+So after creating a few steps in your tutorial, you can create a link that shown that entire diff between two steps (not sub-steps!), the actual does not related to the tutorial tools but very useful if you want to provide your users the ability to see the whole changes for each step of the tutorial.
+
+So in order to do that, make sure you create a Git Tag for each steps you finish (In the last commit of the step), you can do it with SourceTree or in GitHub, it does not matter.
+ 
+So after adding more that one step and one tag, you can add to your tutotial link to page that shows the entire diff, for example:
+
+https://github.com/Urigo/meteor-angular-socially/compare/step_01...step_02
+
+This link shows the entire diff between the tag `step_01` and `step_02`.
+
+Note that after each change you made in the commits that required a force `push`, you need to create the tags again!
+
+#### Download link for a step
+
+Another good you get is the ability to get a link to download the entire tutorial example, so users can jump to step and start it from there with the updated code! 
+
+To do that, just add a link to your tutorial, like this:
+
+https://github.com/Urigo/meteor-angular-socially/archive/step_21.zip
+
+You need ofcourse to change the repository url, and replace `step_21` with the name of the tag you created (explained in the previous section).
+
+Thanks it! now you can just download the entire project in each step!
