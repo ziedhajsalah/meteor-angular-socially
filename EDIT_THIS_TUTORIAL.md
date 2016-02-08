@@ -22,6 +22,20 @@ So what is the flow?
 
 ## How to add new steps to the tutorial?
 
+Adding new steps to your tutorial is easy, just get the latest version of the repository, and do your changes and commit them. 
+It is recomended to make only ONE CHANGE in ONE FILE in ONE COMMIT, which means that after you make a simple change in only one file, commit that single file with a commit message with the right format, for example:
+
+` Step 10.12: This is new!`
+
+I recomend to perform multiple commit to your local repository, and just after you sure that they are fine, to `git push` them to the remote repository, because it is much easier to make change in the local repository.
+
+## How to undo my lastest commit?
+
+So you done a commit and you are not so sure about the change you made, or the order of it? you can just undo your lastest commit with the following command:
+
+` git reset HEAD~1` 
+
+Note that the files you changes goes back to be uncommited change, and if it's a new file it will be removed from git and new you need to `git add` it again.
 
 ## How to edit existing commits?
 
@@ -80,15 +94,71 @@ So let's edit the commit:
 
 - Great, now you in edit mode, and the repository is set to the commit you want to edit! ** so now make your changes to the file / files **
 
-- Done with that file? Great. you now have two options: 
+- Done with that file? Great. to keep the original commit and apply the changes to it, run:
 
-1. Keep the original commit and apply the changes to it, by running:
-2. 
-2. 
-2. `
+`  git commit --all --no-edit --amend`
 
-## Troubleshoot
+That command will commit **all** the files you changed, without **edit the commit message**, and it will **amend** you changes into the original commit.
 
-#### How to create a new tutorial app?
+- So now you are done with the changes and updating the commit, you will need to add the next commits on top of the new commit you edited. so you need to continue with the rebase process, do it by running:
+
+`  git rebase --continue`
+
+And if you noticed in any step on the change the you made a mistake, you can always abort the rebase by running:
+
+`  git rebase --abort`
+
+- In some cases, this is the last step, but in most of the times, you notice that after you continue the rebase operation, git stops and tells you that you have to merge because of conflicts. This makes sense - you changed a file in some point of the repository, but the commits that comes next, also changes it and it depends on the previous version of the file. 
+
+- So in order to merge your conflict, I recommend to open your working directory in WebStorm, right click on the root of your project, and select "Git > Resolve Conflicts":
+![3](http://s12.postimg.org/4yxlr4llp/Screen_Shot_2016_02_08_at_16_58_04.png)
+
+- In the next screen, resolve you conflicts and ** DO NOT MAKE ANY GIT ACTION FROM WEBSTORM**
+
+- Now go back to the command line, and run: `git rebase --continue`, and you will get a screen that tells you to modify your commit message, you can just ignore it and save it as-is (ESC, `:` and then `wq!`).
+
+- If it's compilicated file that changes a lot of time, you might have multiple merges that needed to be done!
+- And you are done now! you just need to update your remote repository with the changes, but in order to do it, you need to `git push` with the `--force` flag, because now that you changed the history of you commits, the repositories no longer match! So run `git push --force origin YOUR_BRANCH` (replace YOUR_BRANCH with the branch you want to push to, **be carful! if you do not specify it, you will push it to the master and you might override the whole repo!**
+
+## How to only edit the commit message?
+
+So if you know how to edit commint (read the previous explaination), changing a commit message is much easier. 
+
+You just need to perform the same `git rebase` as in the previous question, and instead of using `edit`, use `reword` (or just `r`), note that you can do it to multiple commits in the same time. 
+
+Then you will see the commit message in the git shell screen, just change it and then exit and save from the vi.
+
+Then just continue the rebase (`git rebase --continue`) and push it.
+
+## How to remove entire commit?
+
+You just need to perform the same `git rebase` as in the previous question, and in the `vi` screen you get, just removed the entire line of the commit you want to remove (vi shortcut: `dd`), and then continue the rebase.
+
+## How to split commit into two or more commits?
+
+Splitting commits is a tricky one - there are some ways to to it, but I recommend to undo the commit if you still can (if it's the last one) and do it again in splitted commits.
+
+But if you can't undo it, you can still solve this issue:
+
+- Do `git rebase` to your commit minus two commits, that means for example: `git rebase d0021ab~2` (note the 2 instead of 1 in the end of the line), now the commit you want to split will be second in the commits list.
+- Remove the commit you want to split by removing it's line (vi shortcut: `dd`). 
+- Go to the first commit in the list now (which is the commit that comes before the one you want to split), and set it to `edit` mode.
+- Now make you changes in a different commits, instead of one, perform them manually, and to commit each single change, use: `git commit --all` (Note that we did not use `amend` flag so we do not change the commit we set to edit mode!), and in that screen that opens, set the commit message. do that for each one of the commits.
+- Now just continue your rebase with `git rebase --continue` and finish it like any other change you made in the git history.
+
+## How to Meteor packages and versions?
+
+Actually, changing versions and packages in Meteor app should be the same, but there is a file that Meteor manages by it self, called `.meteor/versions` - this file contains the versions of all the packages you use in your app.
+
+So if you `git rebase` to specific commit and modify the packages or update a package version, make sure to run your app as you used to (for example: `meteor`) and wait until Meteor done with the build - in this point, a new `.meteor/versions` file will be generated, so make sure that you commit and update it aswell.
+
+But now you will notice that in every step that you done some change with the packages, you have a conflict and you have to merge - this merge will be very hard to perform because of two generated files with a lot of lines and versions of packages - you do not have to deal with it that way!
+
+First, mark the `.meteor/versions` file as resolved conflict (does matter it's content right now) , and then set the content of the file to empty content.
+
+Now run your app and wait for it to finish the build, and you will notice that Meteor generated the correct and updates `versions` file! Just commit that file now and continue the rebase!
+
+
+## How to create a new tutorial app?
 
 Creating a new tutorial described [here](http://meteor-tutorial-tools.readthedocs.org/en/latest/new-tutorial/).
